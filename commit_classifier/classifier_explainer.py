@@ -4,20 +4,18 @@ from model.tokenizer import CustomTokenizer
 from explainer import CommitExplainer
 import os
 from data_processing import get_sample_from_url
+from utils import download_gdrive
 
 
 class ClassifierExplainer:
 
-    def __init__(self, uncased=True, device="cpu"):
+    def __init__(self, device="cpu"):
 
-        model_name = "CAUKiel/JavaBERT-uncased" if uncased \
-            else "CAUKiel/JavaBERT"
-        unc_path = "_uncased" if uncased else ""
-        rep = 8
+        model_name = "CAUKiel/JavaBERT-uncased"
         model_path = os.path.join(
-            os.path.dirname(__file__),
-            f"model/javaBERT_dasapett_commit_classification_augmented"
-            f"{unc_path}/checkpoint-best-acc-rep-{rep}/model.bin")
+            os.path.dirname(__file__), f"model/model.bin")
+        if not os.path.exists(model_path):
+            download_gdrive("1yFaMCk0gi2O494Y2w0gQK-9ReMxgdA8b", model_path)
 
         config = AutoConfig.from_pretrained(model_name)
         config.num_labels = 1

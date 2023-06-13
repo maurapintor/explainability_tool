@@ -7,7 +7,7 @@ def get_sample_from_url(commit_url, label=None):
                                "15f39fc49d9f25bca872badb48e708a8bb815ea7")
     method_files = [os.path.join(root, f)
                     for root, dirs, files in os.walk(sample_path)
-                    for f in files if f.endswith(".java")][::-1]
+                    for f in files if f.endswith(".java")]
 
     data = {}
     for filename in method_files:
