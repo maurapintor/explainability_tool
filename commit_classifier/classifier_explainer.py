@@ -40,8 +40,7 @@ class ClassifierExplainer:
         true_class = self.label_names[sample["label"]] \
             if "label" in sample else None
         return self.commit_explainer.explain_visualize(
-            sample, commit_url=commit_url, html_filepath="aa.html",
-            true_class=true_class)
+            sample, commit_url=commit_url, true_class=true_class)
 
 
 if __name__ == "__main__":
