@@ -11,90 +11,28 @@ import html
 header = ["<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"",
           "\"http://www.w3.org/TR/html4/strict.dtd\">",
           "<head>",
-          "<link rel=\"stylesheet\" href=\"highlight.css\" type=\"text/css\">",
-          "</head>"]
+          "<title>Explainability Tool</title>",
+          "<link rel=\"stylesheet\" href=\"static/styles.css\" type=\"text/css\">",
+          "<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js\" "
+          "integrity=\"sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz\" "
+          "crossorigin=\"anonymous\"></script>",
+          "</head>",
+          "<div>"
+          "<div class=\"row\">",
+          "<div class=\"col-sm-1\">",
+          "<img height=\"60px\" src=\"assets/images/assuremoss_logo.png\" alt=\"AssureMOSS logo\">",
+          "</div>",
+          "<div class=\"col\">",
+          "<h1>Explainability tool</h1>",
+          "</div>",
+          "</div>"
+          "</div>"]
 hor_line = "<div style=\"border-top: 1px solid; margin-top: 5px; " \
            "padding-top: 5px; display: inline-block\">"
 pre_color = "<mark style=\"background-color: {}; " \
             "\"white-space: pre\"" \
             "opacity:1.0; line-height:1.75\">"
 post_color = "</mark>"
-style = ["<style type=\"text/css\">",
-         "pre { line-height: 125%; }",
-         "td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }",
-         "span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }",
-         "td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }",
-         "span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }",
-         "body .hll { background-color: #ffffcc }",
-         "body { background: #f8f8f8; }",
-         "body .c { color: #3D7B7B; font-style: italic } /* Comment */",
-         "body .err { border: 1px solid #FF0000 } /* Error */",
-         "body .k { color: #008000; font-weight: bold } /* Keyword */",
-         "body .o { color: #666666 } /* Operator */",
-         "body .ch { color: #3D7B7B; font-style: italic } /* Comment.Hashbang */",
-         "body .cm { color: #3D7B7B; font-style: italic } /* Comment.Multiline */",
-         "body .cp { color: #9C6500 } /* Comment.Preproc */",
-         "body .cpf { color: #3D7B7B; font-style: italic } /* Comment.PreprocFile */",
-         "body .c1 { color: #3D7B7B; font-style: italic } /* Comment.Single */",
-         "body .cs { color: #3D7B7B; font-style: italic } /* Comment.Special */",
-         "body .gd { color: #A00000 } /* Generic.Deleted */",
-         "body .ge { font-style: italic } /* Generic.Emph */",
-         "body .gr { color: #E40000 } /* Generic.Error */",
-         "body .gh { color: #000080; font-weight: bold } /* Generic.Heading */",
-         "body .gi { color: #008400 } /* Generic.Inserted */",
-         "body .go { color: #717171 } /* Generic.Output */",
-         "body .gp { color: #000080; font-weight: bold } /* Generic.Prompt */",
-         "body .gs { font-weight: bold } /* Generic.Strong */",
-         "body .gu { color: #800080; font-weight: bold } /* Generic.Subheading */",
-         "body .gt { color: #0044DD } /* Generic.Traceback */",
-         "body .kc { color: #008000; font-weight: bold } /* Keyword.Constant */",
-         "body .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */",
-         "body .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */",
-         "body .kp { color: #008000 } /* Keyword.Pseudo */",
-         "body .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */",
-         "body .kt { color: #B00040 } /* Keyword.Type */",
-         "body .m { color: #666666 } /* Literal.Number */",
-         "body .s { color: #BA2121 } /* Literal.String */",
-         "body .na { color: #687822 } /* Name.Attribute */",
-         "body .nb { color: #008000 } /* Name.Builtin */",
-         "body .nc { color: #0000FF; font-weight: bold } /* Name.Class */",
-         "body .no { color: #880000 } /* Name.Constant */",
-         "body .nd { color: #AA22FF } /* Name.Decorator */",
-         "body .ni { color: #717171; font-weight: bold } /* Name.Entity */",
-         "body .ne { color: #CB3F38; font-weight: bold } /* Name.Exception */",
-         "body .nf { color: #0000FF } /* Name.Function */",
-         "body .nl { color: #767600 } /* Name.Label */",
-         "body .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */",
-         "body .nt { color: #008000; font-weight: bold } /* Name.Tag */",
-         "body .nv { color: #19177C } /* Name.Variable */",
-         "body .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */",
-         "body .w { color: #bbbbbb } /* Text.Whitespace */",
-         "body .mb { color: #666666 } /* Literal.Number.Bin */",
-         "body .mf { color: #666666 } /* Literal.Number.Float */",
-         "body .mh { color: #666666 } /* Literal.Number.Hex */",
-         "body .mi { color: #666666 } /* Literal.Number.Integer */",
-         "body .mo { color: #666666 } /* Literal.Number.Oct */",
-         "body .sa { color: #BA2121 } /* Literal.String.Affix */",
-         "body .sb { color: #BA2121 } /* Literal.String.Backtick */",
-         "body .sc { color: #BA2121 } /* Literal.String.Char */",
-         "body .dl { color: #BA2121 } /* Literal.String.Delimiter */",
-         "body .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */",
-         "body .s2 { color: #BA2121 } /* Literal.String.Double */",
-         "body .se { color: #AA5D1F; font-weight: bold } /* Literal.String.Escape */",
-         "body .sh { color: #BA2121 } /* Literal.String.Heredoc */",
-         "body .si { color: #A45A77; font-weight: bold } /* Literal.String.Interpol */",
-         "body .sx { color: #008000 } /* Literal.String.Other */",
-         "body .sr { color: #A45A77 } /* Literal.String.Regex */",
-         "body .s1 { color: #BA2121 } /* Literal.String.Single */",
-         "body .ss { color: #19177C } /* Literal.String.Symbol */",
-         "body .bp { color: #008000 } /* Name.Builtin.Pseudo */",
-         "body .fm { color: #0000FF } /* Name.Function.Magic */",
-         "body .vc { color: #19177C } /* Name.Variable.Class */",
-         "body .vg { color: #19177C } /* Name.Variable.Global */",
-         "body .vi { color: #19177C } /* Name.Variable.Instance */",
-         "body .vm { color: #19177C } /* Name.Variable.Magic */",
-         "body .il { color: #666666 } /* Literal.Number.Integer.Long */",
-         "</style>"]
 
 
 class CommitExplainer:
@@ -199,8 +137,6 @@ class CommitExplainer:
 
         dom = []
         dom += header
-        dom += style
-        dom.append(hor_line)
         dom += ["<p><b>True Label:</b> {}</p>".format(true_class),
                 "<p><b>Predicted Label:</b> {}</p>".format(attr_class),
                 "<p><b>Score:</b> {:.6f}</p>".format(
