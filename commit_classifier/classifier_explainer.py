@@ -41,9 +41,3 @@ class ClassifierExplainer:
             if "label" in sample else None
         return self.commit_explainer.explain_visualize(
             sample, commit_url=commit_url, true_class=true_class)
-
-
-if __name__ == "__main__":
-    ClassifierExplainer(device="cuda").classify_explain(
-        "https://github.com/jenkinsci/junit-plugin/commit/"
-        "15f39fc49d9f25bca872badb48e708a8bb815ea7")
