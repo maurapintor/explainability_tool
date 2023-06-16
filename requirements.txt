@@ -4,7 +4,8 @@ jinja2
 python-multipart
 torch
 transformers
-pygments
+transformers-interpret
+pygments==2.11.2
 numpy
 ipython
 pydriller

@@ -1,10 +1,6 @@
-from .explainer import JavaBERTCommitClassificationExplainer
+from commit_classifier.explainer.explainer import \
+    JavaBERTCommitClassificationExplainer
 import difflib
-try:
-    from IPython.display import display, HTML
-    HAS_IPYTHON = True
-except ImportError:
-    HAS_IPYTHON = False
 import pygments
 from pygments import lexers, formatters
 import re
@@ -198,13 +194,8 @@ class CommitExplainer:
         try:
             explained_lines = self._normalize_attributions(explained_lines)
         except ValueError:
-            print(f"cannot visualize explanation (commit url: {commit_url})")
-            return
-
-        assert HAS_IPYTHON, (
-            "IPython must be available to visualize text. "
-            "Please run 'pip install ipython'."
-        )
+            raise Exception(f"Cannot visualize explanation (commit url: "
+                            f"{commit_url})")
 
         dom = []
         dom += header
@@ -230,15 +221,14 @@ class CommitExplainer:
                         value=self._get_color(value), label=label))
             dom.append("<hr><br>")
         dom.append(self._format_code_lines(diff_lines, explained_lines))
-        html = HTML("\n".join(dom))
-        display(html)
+        html_txt = "\n".join(dom)
 
         if html_filepath:
             if not html_filepath.endswith(".html"):
                 html_filepath = html_filepath + ".html"
             with open(html_filepath, "w") as html_file:
-                html_file.write(html.data)
-        return html
+                html_file.write(html_txt)
+        return html_txt
 
     def _get_color(self, attr):
         # clip values to prevent CSS errors (Values should be from [-1,1])

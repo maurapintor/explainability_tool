@@ -53,11 +53,10 @@ class GitExplorer:
         self.cache_path = cache_path
         pathlib.Path(cache_path).mkdir(parents=True, exist_ok=True)
 
-    def _get_repo(self, url, timeout=300):
+    def _get_repo(self, url, timeout=60):
         repo_path = path_from_url(url, self.cache_path)
         if not os.path.isdir(repo_path):
             with TimeOut(seconds=timeout):
-                logging.info(f'Cloning repository: {url}')
                 Repo.clone_from(str(url), repo_path)
         return Git(repo_path)
 
@@ -66,22 +65,23 @@ class GitExplorer:
         try:
             repo = self._get_repo(repo_url)
         except Exception as repo_ex:
-            logging.warning(
-                f'There was an error with repository {repo_url}: {str(repo_ex)}')
-            return
+            raise Exception(f"There was an error with repository {repo_url}: "
+                            f"{str(repo_ex)}")
 
         try:
             data = {"pre": {}, "post": {}}
 
-            commit = repo.get_commit(commit_id)
+            try:
+                commit = repo.get_commit(commit_id)
+            except Exception:
+                raise Exception("Commit not found")
 
             changed_files = [f for f in commit.modified_files if
                              os.path.splitext(f.filename)[1] == ".java"
                              and len(f.changed_methods) != 0]
             if len(changed_files) == 0:
-                logging.warning(f'No modified files or methods in '
-                                f'commit {commit_id}')
-                return
+                raise Exception(f"No modified java files or methods in "
+                                f"commit {commit_id}")
 
             # Iterate over changed files
             for file in changed_files:
@@ -106,10 +106,6 @@ class GitExplorer:
                         m_before, file.source_code_before)
                     if len(method_before_code.split('\n')) > max_len \
                             or len(method_after_code.split('\n')) > max_len:
-                        logging.warning(
-                            f'method {method_name} in file {file.filename} in '
-                            f'commit {commit_id} is too long: '
-                            f'it will be ignored')
                         continue
 
                     annotations = '\n'.join(file.source_code.split('\n')[
@@ -128,9 +124,8 @@ class GitExplorer:
             return data
 
         except Exception as cmt_ex:
-            logging.error(
-                f'There was an error with commit {commit_id}: {str(cmt_ex)}')
-            pass
+            raise Exception(f"There was an error with commit {commit_id}: "
+                            f"{str(cmt_ex)}")
 
     @staticmethod
     def _get_method_code(m, source_code):
@@ -145,8 +140,3 @@ class GitExplorer:
             c_header = white_space + 'class ' + cl + ' {\n'
             method_code = c_header + method_code + '\n' + white_space + '}'
         return method_code
-
-
-class MalformedUrl(Exception):
-    def __init__(self, message):
-        super().__init__(message)

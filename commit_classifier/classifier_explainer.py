@@ -1,10 +1,10 @@
 from transformers import AutoModelForSequenceClassification, AutoConfig
 import torch
-from model.tokenizer import CustomTokenizer
-from explainer import CommitExplainer
+from commit_classifier.model.tokenizer import CustomTokenizer
+from commit_classifier.explainer import CommitExplainer
 import os
-from data_processing import get_sample_from_url
-from utils import download_gdrive
+from commit_classifier.data_processing import get_sample_from_url
+from commit_classifier.utils import download_gdrive
 
 
 class ClassifierExplainer:
