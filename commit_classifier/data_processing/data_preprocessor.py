@@ -1,4 +1,4 @@
-from .git_explorer import GitExplorer
+from commit_classifier.data_processing.git_explorer import GitExplorer
 
 
 def get_sample_from_url(commit_url, label=None):
