@@ -11,7 +11,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 templates = Jinja2Templates(directory="templates")
-clf = ClassifierExplainer(device="mps")
+clf = ClassifierExplainer(device="cuda:0")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_item(request: Request):
