@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from commit_classifier import ClassifierExplainer
+from fastapi.responses import FileResponse
 
 app = FastAPI()
 
@@ -24,3 +25,11 @@ async def login(url: Annotated[str, Form()], response_class=HTMLResponse):
         return HTMLResponse(html)
     except Exception as e:
         return HTMLResponse(str(e))
+
+favicon_path = 'assets/images/favicon.ico'
+
+@app.get('/favicon.ico', include_in_schema=False)
+@app.get('/apple-touch-icon.png', include_in_schema=False)
+async def favicon():
+    return FileResponse(favicon_path)
+
