@@ -20,7 +20,7 @@ header = ["<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"",
           "<div>"
           "<div class=\"row\">",
           "<div class=\"col-sm-1\">",
-          "<img height=\"60px\" src=\"assets/images/assuremoss_logo.png\" alt=\"AssureMOSS logo\">",
+          "<img height=\"80px\" src=\"assets/images/assuremoss_logo.png\" alt=\"AssureMOSS logo\">",
           "</div>",
           "<div class=\"col\">",
           "<h1>Explainability tool</h1>",
@@ -29,7 +29,7 @@ header = ["<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"",
           "</div>"]
 hor_line = "<div style=\"border-top: 1px solid; margin-top: 5px; " \
            "padding-top: 5px; display: inline-block\">"
-pre_color = "<mark style=\"background-color: {}; " \
+pre_color = "<mark title=\"{:.6f}\" style=\"background-color: {}; " \
             "\"white-space: pre\"" \
             "opacity:1.0; line-height:1.75\">"
 post_color = "</mark>"
@@ -200,7 +200,7 @@ class CommitExplainer:
                 return value
             return (value - r_min) / (r_max - r_min) * (n_max - n_min) + n_min
 
-        return {i: [(t[0], normalize(t[1])) for t in l]
+        return {i: [(t[0], t[1], normalize(t[1])) for t in l]
                 for i, l in explained_lines.items()}
 
     def _format_code_lines(self, diff_lines, explained_lines):
@@ -222,16 +222,17 @@ class CommitExplainer:
                         formatted_line[e+offset:]
                     l_word = len(word)
                     word = word.replace(" ", "")
-                    for tok, imp in explained_lines[i]:
+                    for tok, attr, norm_attr in explained_lines[i]:
                         tok = tok.strip("##")
                         if tok == word[:len(tok)].lower():
-                            color = self._get_color(imp)
+                            color = self._get_color(norm_attr)
                             formatted_line = formatted_line[:s+offset] + \
-                                pre_color.format(color) + word[:len(tok)] + \
-                                post_color + formatted_line[e+offset-l_word:]
+                                pre_color.format(attr, color) + \
+                                word[:len(tok)] + post_color + \
+                                formatted_line[e+offset-l_word:]
                             word = word[len(tok):]
-                            offset += len(pre_color.format(color)) + len(tok) \
-                                + len(post_color)
+                            offset += len(pre_color.format(attr, color)) + \
+                                len(tok) + len(post_color)
                     offset -= l_word
             tags.append(formatted_line)
         return "\n".join(tags)
