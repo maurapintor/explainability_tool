@@ -31,6 +31,10 @@ header = ["<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"",
           "</div>"]
 hor_line = "<div style=\"border-top: 1px solid; margin-top: 5px; " \
            "padding-top: 5px; display: inline-block\">"
+button = "<button type=\"button\" id=\"btn\" onclick=\"function show() {" \
+         "document.getElementById('explanation').style.display = ''; " \
+         "document.getElementById('btn').style.display = 'none';}; show();\">" \
+         "Explain</button>"
 pre_color = "<mark title=\"{:.6f}\" style=\"background-color: {}; " \
             "\"white-space: pre\"" \
             "opacity:1.0; line-height:1.75\">"
@@ -146,6 +150,8 @@ class CommitExplainer:
         if commit_url:
             dom.append("<p><b>Commit url:</b><a href=\"{}\"> {}</a></p>"
                        .format(commit_url, commit_url))
+        dom.append(button)
+        dom.append("<div id=\"explanation\" style=\"display: none;\">")
         dom.append(hor_line)
         if legend:
             dom.append("<b>Legend: </b>")
@@ -159,6 +165,7 @@ class CommitExplainer:
                         value=self._get_color(value), label=label))
             dom.append("<hr><br>")
         dom.append(self._format_code_lines(diff_lines, explained_lines))
+        dom.append("</div>")
         html_txt = "\n".join(dom)
 
         if html_filepath:

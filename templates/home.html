@@ -10,12 +10,14 @@
             </div>
         </div>
         <div class="row">
-            <form method="POST">
+            <form method="POST" id="url_form">
                 <label for="url">Enter a commit URL:</label>
                 <input type="url" name="url" id="url" placeholder="https://github.com/..."
                     pattern="https://github.com/.*/.*/commit/.*" size="30" required>
+                <button type="submit" disabled style="display: none" aria-hidden="true"></button>
             </form>
         </div>
+        <button type="submit" form="url_form">Classify</button>
     </div>
 
     {% endblock %}
