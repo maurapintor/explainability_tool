@@ -6,12 +6,16 @@ from fastapi.templating import Jinja2Templates
 from commit_classifier import ClassifierExplainer
 from fastapi.responses import FileResponse
 
+
+DEVICE = "cuda:0"
+
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/assets", StaticFiles(directory="assets"), name="assets")
 templates = Jinja2Templates(directory="templates")
-clf = ClassifierExplainer(device="cuda:0")
+clf = ClassifierExplainer(device=DEVICE)
+
 
 @app.get("/", response_class=HTMLResponse)
 async def read_item(request: Request):
@@ -28,8 +32,8 @@ async def login(url: Annotated[str, Form()], response_class=HTMLResponse):
 
 favicon_path = 'assets/images/favicon.ico'
 
+
 @app.get('/favicon.ico', include_in_schema=False)
 @app.get('/apple-touch-icon.png', include_in_schema=False)
 async def favicon():
     return FileResponse(favicon_path)
-

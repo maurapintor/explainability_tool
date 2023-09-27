@@ -43,6 +43,8 @@ post_color = "</mark>"
 
 class CommitExplainer:
 
+    """some parts are adapted from https://github.com/pytorch/captum/blob/master/captum/attr/_utils/visualization.py"""
+
     def __init__(self, model, tokenizer, custom_labels=None):
         self.model = model
         self.tokenizer = tokenizer

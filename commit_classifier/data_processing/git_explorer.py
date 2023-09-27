@@ -1,6 +1,5 @@
 import os
 import re
-import logging
 from pydriller.git import Git, Repo
 import pathlib
 from urllib.parse import urlparse
